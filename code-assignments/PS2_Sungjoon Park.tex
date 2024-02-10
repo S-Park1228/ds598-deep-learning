@@ -1,0 +1,106 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\documentclass[10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{threeparttable}
+\usepackage{lipsum}
+\usepackage{multirow}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+%----------------------------------------------------------------------------------------
+%	TITLE
+%----------------------------------------------------------------------------------------
+\title{DS 598 DEEP LEARNING}
+\author{Sungjoon Park (BUID: U38522578)}
+\date{Jan. 30st, 2024}
+
+\begin{document}
+\maketitle
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{2mm}
+
+%----------------------------------------------------------------------------------------
+%	BODY
+%----------------------------------------------------------------------------------------
+\textbf{Problem Set 2}
+
+\begin{enumerate}
+
+% Problem 1
+\item
+
+	$L(\phi)=\sum_{i=1}^{I}(\phi_0+\phi_1x_i-y_i)^2$
+	
+	with respect to $\phi_0$
+	\begin{align*}
+	\frac{\partial L(\phi)}{\partial \phi_0} &= 2\sum_{i=1}^{I}(\phi_0+\phi_1x_i-y_i) \\
+	&= 2I\phi_0+2\phi_1\sum_{i=1}^Ix_i-2\sum_{i=1}^Iy_i
+	\end{align*}
+	
+	with respect to $\phi_1$
+	\begin{align*}
+	\frac{\partial L(\phi)}{\partial \phi_1} &= 2\sum_{i=1}^{I}x_i(\phi_0+\phi_1x_i-y_i) \\
+	&= 2\phi_0\sum_{i=1}^Ix_i+2\phi_1\sum_{i=1}^Ix_i^2-2\sum_{i=1}^Ix_iy_i
+	\end{align*}
+
+
+
+% Problem 2	
+\item
+
+	First Order Condition \\
+	with respect to $\phi_0$
+	\begin{align*}
+	\frac{\partial L(\phi)}{\partial \phi_0} &= 2I\phi_0+2\phi_1\sum_{i=1}^Ix_i-2\sum_{i=1}^Iy_i \\
+	&= 0
+	\end{align*}
+	
+	$$I\phi_0+\phi_1\sum_{i=1}^Ix_i-\sum_{i=1}^Iy_i=0$$
+	
+	\begin{align*}
+	\phi_0^* &= \frac{1}{I}\sum_{i=1}^Iy_i-\frac{\phi_1}{I}\sum_{i=1}^Ix_i \\
+	&= \bar{y}-\phi_1\bar{x}
+	\end{align*}
+	
+	with respect to $\phi_1$
+	\begin{align*}
+	\frac{\partial L(\phi)}{\partial \phi_1} &= 2\sum_{i=1}^{I}x_i(\phi_0+\phi_1x_i-y_i) \\
+	\intertext{Since $\phi_0^*=\bar{y}-\phi_1\bar{x}$,}
+	&= 2\sum_{i=1}^{I}x_i(\bar{y}-\phi_1\bar{x}+\phi_1x_i-y_i) \\
+	&= 2\sum_{i=1}^{I}x_i(\phi_1(x_i-\bar{x})-(y_i-\bar{y})) \\
+	&= 0
+	\end{align*}
+	
+	\begin{align*}
+	\phi_1^* &= \frac{\sum_{i=1}^{I}x_i(y_i-\bar{y})}{\sum_{i=1}^{I}x_i(x_i-\bar{x})}
+	\end{align*}
+	
+	\begin{align*}
+	\phi_0^* &= \bar{y}- \frac{\sum_{i=1}^{I}x_i(y_i-\bar{y})}{\sum_{i=1}^{I}x_i(x_i-\bar{x})}\bar{x}
+	\end{align*}
+	
+	Second Order Condition \\
+	with respect to $\phi_0$
+	\begin{align*}
+	\frac{\partial^2 L(\phi)}{\partial \phi_0^2} &= 2 > 0
+	\end{align*}
+	$\therefore$ $\phi_0*$ attains the global minimum.
+	
+	with respect to $\phi_1$
+	$\because$ $\forall x_i$, $x_i \in \mathbb{R}^1$
+	\begin{align*}
+	\frac{\partial^2 L(\phi)}{\partial \phi_1^2} &= 2\sum_{i=1}^Ix_i^2 \geq 0
+	\end{align*}
+	
+	$\therefore$ $\phi_1^*$ attains the global minimum.
+
+\end{enumerate}
+
+\end{document}

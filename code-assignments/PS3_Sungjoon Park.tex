@@ -1,0 +1,174 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\documentclass[10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{threeparttable}
+\usepackage{lipsum}
+\usepackage{multirow}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+%----------------------------------------------------------------------------------------
+%	TITLE
+%----------------------------------------------------------------------------------------
+\title{DS 598 DEEP LEARNING}
+\author{Sungjoon Park (BUID: U38522578)}
+\date{Feb. 1st, 2024}
+
+\begin{document}
+\maketitle
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{2mm}
+
+%----------------------------------------------------------------------------------------
+%	BODY
+%----------------------------------------------------------------------------------------
+\textbf{Problem Set 3}
+
+\begin{enumerate}
+
+% Problem 1
+\item (Problem 3.1)
+	\begin{enumerate}[label=(\alph*)]
+	\item If the activation function in equation 3.1 was linear, there will be only one mapping from input to output like below.
+
+	\begin{align*}
+	y &= \phi_0+\phi_1(\psi_0+\psi_1x)+\phi_2(\psi_0+\psi_1x)++\phi_3(\psi_0+\psi_1x) \\
+	&= (\phi_0+(\phi_1+\phi_2+\phi_3)\psi_0)+(\phi_1+\phi_2+\phi_3)\psi_1x \\
+	&= a+bx
+	\end{align*}
+	
+	This is nothing but a linear equation composed of parameters with a pair of bias and slope where $a=\phi_0+(\phi_1+\phi_2+\phi_3)\psi_0$ and $b=(\phi_1+\phi_2+\phi_3)\psi_1$.
+	
+	\item If the activation function were removed, then the shallow network becomes a simple linear function like below.
+	
+	$$y=\phi_0+(\phi_1+\phi_2+\phi_3)x$$
+	
+	Thus, there exists only one mapping.
+	
+	\end{enumerate}
+
+\
+
+% Problem 2	
+\item (Problem 3.2) It can be determined by the figures in $g$, $h$ and $i$.
+	\begin{center}
+	\begin{tabular}{ |c|c|c|c|c| } 
+	\hline
+	Regions & 1st & 2nd & 3rd & 4th \\
+	\hline
+	\multirow{2}{4em}{Active Inactive} & $h_3$ & $h_1$ and $h_3$ & $h_1$, $h_2$ and $h_3$ & $h_1$ and $h_2$ \\ 
+	& $h_1$ and $h_2$ & $h_2$ & None & $h_3$ \\ 
+	\hline
+	\end{tabular}
+	\end{center}
+	* The regions are sorted from the left.
+
+\
+	
+% Problem 3
+\item (Problem 3.3) \\
+	$<$ Joints $>$ \\
+	The positions where the three pre-activation functions cross zero in the Figure 3.3 become the three "joints" in the final output. From the left, their horizontal locations are like below. \\
+	1st joint: $x=-\frac{\theta_{10}}{\theta_{11}}$ \\
+	2nd joint: $x=-\frac{\theta_{20}}{\theta_{21}}$ \\
+	3rd joint: $x=-\frac{\theta_{30}}{\theta_{31}}$ \\
+	Their vertical locations can be obtained by adding height at each horizontal location. \\
+	1st joint: $\phi_0+(\theta_{30}-\frac{\theta_{10}}{\theta_{11}}\theta_{31})\phi_3$ \\
+	2nd joint: $\phi_0+(\theta_{10}-\frac{\theta_{20}}{\theta_{21}}\theta_{11})\phi_1+(\theta_{30}-\frac{\theta_{20}}{\theta_{21}}\theta_{31})\phi_3$ \\
+	3rd joint: $\phi_0+(\theta_{10}-\frac{\theta_{30}}{\theta_{31}}\theta_{11})\phi_1+(\theta_{20}-\frac{\theta_{30}}{\theta_{31}}\theta_{21})\phi_2$ \\
+	
+	$<$ Linear Regressions $>$ \\
+	The slopes of the four regressions are as follows. \\
+	1st slope: $\phi_3\theta_{31}$ \\
+	2nd slope: $\phi_1\theta_{11}+\phi_3\theta_{31}$ \\
+	3rd slope: $\phi_1\theta_{11}+\phi_2\theta_{21}+\phi_3\theta_{31}$ \\
+	4th slope: $\phi_1\theta_{11}+\phi_2\theta_{21}$ \\
+	
+	By drawing on the positions of the three joints and four slopes above, the four regressions are derived as follows. \\
+	\textbf{1st regression}: $y=(\phi_0+\phi_3\theta_{30})+\phi_3\theta_{31}x$, where $x \in [0, -\frac{\theta_{10}}{\theta_{11}})$\\
+	\textbf{2nd regression}: $y=(\phi_0+\phi_3\theta_{30}+\phi_1\theta_{10})+(\phi_1\theta_{11}+\phi_3\theta_{31})x$, where $x \in [-\frac{\theta_{10}}{\theta_{11}}, -\frac{\theta_{20}}{\theta_{21}})$ \\
+	\textbf{3rd regression}: $y=(\phi_0+\phi_2\theta_{20}+\phi_1\theta_{10}+\phi_3\theta_{30})+(\phi_1\theta_{11}+\phi_2\theta_{21}+\phi_3\theta_{31})x$, where $x \in [-\frac{\theta_{20}}{\theta_{21}}, -\frac{\theta_{30}}{\theta_{31}})$ \\
+	\textbf{4th regression}: $y=(\phi_0+\phi_1\theta_{10}+\phi_2\theta_{20})+(\phi_1\theta_{11}+\phi_2\theta_{21})x$,where $x \in [-\frac{\theta_{30}}{\theta_{31}}, 1]$
+
+\
+
+% Problem 4
+\item (Problem 3.5) The property holds for $\alpha \in \mathbb{R}^+$. \\
+	If $z\geq0$, then $\alpha z\geq0$. Therefore, $\text{ReLU}[\alpha z]=\alpha z=\alpha \text{ReLU}[z]$. \\
+	Otherwise, that is, if $z<0$, $\alpha z<0$. Thus, $\text{ReLU}[\alpha z]=0=\alpha \text{ReLU}[z]$. \\
+	For this reason, $\text{ReLU}[\alpha z]=\alpha \text{ReLU}[z]$
+
+\
+
+% Problem 5
+\item (Problem 3.6)
+	\begin{enumerate}[label=(\alph*)]
+	\item Multiplying $\theta_{10}$ and $\theta_{11}$ by a positive real number, $\alpha$, respectively does not impact the horizontal intercept of pre-activation function, that is, the $x$ value at the first joint. This is because the original position $-\frac{\theta_{10}}{\theta_{11}}$ is the same as $-\frac{\alpha\theta_{10}}{\alpha\theta_{11}}=-\frac{\theta_{10}}{\theta_{11}}$. However, the pre-activation graph will be changed such that its slope and y-intercept are $\alpha\theta_{11}$ and $\alpha\theta_{10}$ respectively, while maintaining their signs. This change will be offset in the output layer by dividing $\phi_1$ by a positive real number, $\alpha$, because $\frac{\phi_1}{\alpha} \times (\alpha(\theta_{10}+\theta_{11}))x$ is the same as $\phi_1 \times (\theta_{10}+\theta_{11})x$ and the active area (support) is not changed.
+	
+	\item On the other hand, if the parameters $\theta_{10}$ and $\theta_{11}$ is multiplied by a negative real number, $\alpha$, the pre-activation graph rotates around the horizontal axis maintaining the same horizontal intercept as before. The final output, however, is not changed because of the same reason in the case (a). \\
+	The pre-activation and post-activation lines (not weighted lines) in both cases (a) and (b) will have steeper slopes and farther y-intercepts from the origin if the absolute value of $\alpha$ is larger than 1. Otherwise, their slopes will be smaller and their y-intercepts will be closer to the origin.
+	
+	\end{enumerate}
+
+\
+
+% Problem 6
+\item (Problem 3.7)
+As is the case of the above problem, there can exist multiple sets of parameters that result in the same mapping from inputs to outputs. Therefore, the loss function of the equation 3.1 can have more than one sets of parameters that attain the same minimum loss.
+
+\
+
+% Problem 7
+\item (Problem 3.14) \\
+\begin{enumerate}[label=(\alph*)]
+	\item $<$ From the input layer to the hidden layer $>$
+
+	$h_1=a(\theta_{10}+\theta_{11}x_1+\theta_{12}x_2+\theta_{13}x_3$) \\
+	$h_2=a(\theta_{20}+\theta_{21}x_1+\theta_{22}x_2+\theta_{23}x_3$) \\
+	$h_3=a(\theta_{30}+\theta_{31}x_1+\theta_{32}x_2+\theta_{33}x_3$)
+	
+	\item $<$ From the hidden layer to the output layer $>$
+	
+	$y_1=\phi_{10}+\phi_{11}h_1+\phi_{12}h_2+\phi_{13}h_3$ \\
+	$y_2=\phi_{20}+\phi_{21}h_1+\phi_{22}h_2+\phi_{23}h_3$
+
+	\end{enumerate}
+
+\
+
+% Problem 8
+\item (Problem 3.17) \\
+	$<$ From the input layer to the hidden layer $>$ \\
+	$(D_i+1) \times D$ \\
+	$<$ From the hidden layer to the output layer $>$ \\
+	$(D+1) \times D_o$ \\
+	$<$ Total number of parameters $>$ \\
+	$((D_i+1) \times D)+((D+1) \times D_o)=(D_i+D_o) \times D+(D+D_o)$
+
+\
+
+% Problem 9
+\item (Problem 3. 18) \\
+	$<$ The maximum number of regions in figure 3.8j $>$ \\
+	\begin{align*}
+	\sum_{j=0}^{2}{3 \choose j} &= {3 \choose 0}+{3 \choose 1}+{3 \choose 2} \\
+	&= 1+3+3 \\
+	&= 7
+	\end{align*}
+	$<$ The maximum number of regions when $D=5$ $>$ \\
+	\begin{align*}
+	\sum_{j=0}^{2}{5 \choose j} &= {5 \choose 0}+{5 \choose 1}+{5 \choose 2} \\
+	&= 1+5+10 \\
+	&= 16
+	\end{align*}
+
+\end{enumerate}
+
+\end{document}
